@@ -191,6 +191,9 @@ void whitespace_hatching_and_replacing_on_0 (char* strings_of_file, size_t curr_
 
 
 
+
+
+
 int main (){
 
     char file_name[] = "onegin1.txt";
