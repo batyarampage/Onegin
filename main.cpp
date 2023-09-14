@@ -24,6 +24,8 @@ int my_reversed_strcmp (const void* str1, const void* str2);
 
 void my_qsort (char** data, size_t curr_strlen, size_t size_of_type, int (*comparator));
 
+int my_strcmp_without_punct (const void* strings1, const void* strings2);
+
 
 
 size_t my_strlen (const char* str, size_t* curr_symb){
@@ -122,13 +124,19 @@ int my_reversed_strcmp (const void* strings1, const void* strings2){
     }
 }
 
-void my_qsort (char** data, size_t curr_strlen, size_t size_of_type, int (*comparator)){
 
-    assert(data);
 
+int my_strcmp_without_punct (const void* strings1, const void* strings2){
+
+    assert(strings1);
+    assert(strings2);
+
+    const char* str1 = (const char*) strings1;
+    const char* str2 = (const char*) strings2;
 
 
 }
+
 
 
 size_t filesize (char file_name[]){
@@ -180,6 +188,7 @@ void whitespace_hatching_and_replacing_on_0 (char* strings_of_file, size_t curr_
         }
     }
 }
+
 
 
 int main (){
