@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <errno.h>
 #include <ctype.h>
+#include "strsfunc.h"
+
 
 
 struct reading_from_file {
@@ -32,261 +34,7 @@ void read_text_from_tile (struct reading_from_file* parameters_of_file);
 
 void whitespace_hatching_and_replacing_on_0 (struct reading_from_file* parameters_of_file);
 
-int my_reversed_strcmp (const void* str1, const void* str2);
-
-int my_strcmp_without_punct (const void* strings1, const void* strings2);
-
 void read_sort_and_file_output (struct reading_from_file* parameters_of_file);
-
-
-
-
-
-size_t my_strlen (const char* str, size_t* curr_symb){
-
-    size_t lenght = 0;
-
-    while((*(str + *curr_symb) != '\n') && (*(str + *curr_symb) != '\0')){
-
-        if (isalpha(*(str + *curr_symb))){
-
-            lenght++;
-        }
-
-        (*curr_symb)++;
-    }
-
-    return lenght;
-}
-
-int my_strcmp_without_punctuation_Reversed (const void* strings1, const void* strings2){
-
-    const char* str1 = (const char*) strings1;
-    const char* str2 = (const char*) strings2;
-
-    //printf("aboba\n");
-
-    size_t len_of_str1 = 0;
-    size_t len_of_str2 = 0;
-
-    size_t len_of_str1_without_spec = my_strlen(str1, &len_of_str1);
-    size_t len_of_str2_without_spec = my_strlen(str2, &len_of_str2);
-
-    //printf("len_of_str1_without_spec %u\n",len_of_str1_without_spec);
-    //printf("len_of_str2_without_spec %u\n",len_of_str2_without_spec);
-    //printf("len_of_str1 %u\n",len_of_str1);
-    //printf("len_of_str2 %u\n",len_of_str2);
-
-    if (len_of_str1_without_spec > len_of_str2_without_spec){
-
-        return 1;
-    }
-
-    else if (len_of_str1_without_spec < len_of_str2_without_spec){
-
-        return -1;
-    }
-
-    else {
-
-        size_t iterator_str1 = len_of_str1 - 1;
-        size_t iterator_str2 = len_of_str2 - 1;
-
-        while ((*(str1 + iterator_str1)) && (*(str2 + iterator_str2)) && (iterator_str1 > 0) && (iterator_str2 > 0)){
-
-            while ((!isalpha(*(str1 + iterator_str1))) && (*(str1 + iterator_str1)) && (iterator_str1 > 0)){
-
-                iterator_str1--;
-            }
-
-            while ((!isalpha(*(str2 + iterator_str2))) && (*(str2 + iterator_str2)) && (iterator_str2 > 0)){
-
-                iterator_str2--;
-            }
-
-            int difference = (*(str1 + iterator_str1)) - (*(str2 + iterator_str2));
-
-            //printf("*(str1) %c\n", *(str1 + iterator_str1));
-            //printf("*(str2) %c\n", *(str2 + iterator_str2));
-            //printf("----------------------------------\n");
-
-            if (difference > 0){
-
-                return 1;
-            }
-
-            if (difference < 0){
-
-                return -1;
-            }
-
-            iterator_str1--;
-            iterator_str2--;
-        }
-
-        if ((*str1) > (*str2)){
-
-            return 1;
-        }
-
-        if ((*str1) < (*str2)){
-
-            return -1;
-        }
-
-        return 0;
-    }
-}
-
-
-
-int my_strcmp_without_punctuation_Direct (const void* strings1, const void* strings2){
-
-    const char* str1 = (const char*) strings1;
-    const char* str2 = (const char*) strings2;
-
-    size_t len_of_str1 = 0;
-    size_t len_of_str2 = 0;
-
-    size_t len_of_str1_without_spec_symb = my_strlen(str1, &len_of_str1);
-    size_t len_of_str2_without_spec_symb = my_strlen(str2, &len_of_str2);
-
-    //printf("len_of_str1_without_spec %u\n",len_of_str1_without_spec);
-    //printf("len_of_str2_without_spec %u\n",len_of_str2_without_spec);
-    //printf("len_of_str1 %u\n",len_of_str1);
-    //printf("len_of_str2 %u\n",len_of_str2);
-
-    if (len_of_str1_without_spec_symb > len_of_str2_without_spec_symb){
-
-        return 1;
-    }
-
-    else if (len_of_str1_without_spec_symb < len_of_str2_without_spec_symb){
-
-        return -1;
-    }
-
-    else {
-
-        size_t iterator_str1 = 0;
-        size_t iterator_str2 = 0;
-
-        while ((*(str1 + iterator_str1)) && (*(str2 + iterator_str2)) && (iterator_str1 < len_of_str1) && (iterator_str2 < len_of_str2)){
-
-            while ((!isalpha(*(str1 + iterator_str1))) && (*(str1 + iterator_str1)) && (iterator_str1 < len_of_str1)){
-
-                iterator_str1++;
-            }
-
-            while ((!isalpha(*(str2 + iterator_str2))) && (*(str2 + iterator_str2)) && (iterator_str2 < len_of_str2)){
-
-                iterator_str2++;
-            }
-
-            int difference = (*(str1 + iterator_str1)) - (*(str2 + iterator_str2));
-
-            //printf("*(str1) %c\n", *(str1 + iterator_str1));
-            //printf("*(str2) %c\n", *(str2 + iterator_str2));
-            //printf("----------------------------------\n");
-
-            if (difference > 0){
-
-                return 1;
-            }
-
-            if (difference < 0){
-
-                return -1;
-            }
-
-            iterator_str1++;
-            iterator_str2++;
-        }
-
-        if ((*str1) > (*str2)){
-
-            return 1;
-        }
-
-        if ((*str1) < (*str2)){
-
-            return -1;
-        }
-
-        return 0;
-    }
-
-
-}
-
-
-int my_strcmp_with_punctuation_Direct (const void* strings1, const void* strings2){
-
-    const char* str1 = (const char*) strings1;
-    const char* str2 = (const char*) strings2;
-
-    size_t len_of_str1 = 0;
-    size_t len_of_str2 = 0;
-
-    size_t len_of_str1_without_spec_symb = my_strlen(str1, &len_of_str1);
-    size_t len_of_str2_without_spec_symb = my_strlen(str2, &len_of_str2);
-
-    //printf("len_of_str1_without_spec %u\n",len_of_str1_without_spec_symb);
-    //printf("len_of_str2_without_spec %u\n",len_of_str2_without_spec_symb);
-    //printf("len_of_str1 %u\n",len_of_str1);
-    //printf("len_of_str2 %u\n",len_of_str2);
-
-    size_t iterator_str1 = 0;
-    size_t iterator_str2 = 0;
-
-    while ((*(str1 + iterator_str1)) && (*(str2 + iterator_str2)) && (iterator_str1 < len_of_str1) && (iterator_str2 < len_of_str2)){
-
-        while ((!isalpha(*(str1 + iterator_str1))) && (*(str1 + iterator_str1)) && (iterator_str1 < len_of_str1)){
-
-            iterator_str1++;
-        }
-
-        while ((!isalpha(*(str2 + iterator_str2))) && (*(str2 + iterator_str2)) && (iterator_str2 < len_of_str2)){
-
-            iterator_str2++;
-        }
-
-        int difference = (*(str1 + iterator_str1)) - (*(str2 + iterator_str2));
-
-        printf("*(str1) %c\n", *(str1 + iterator_str1));
-        printf("*(str2) %c\n", *(str2 + iterator_str2));
-        printf("diff %d\n",difference);
-        printf("----------------------------------\n");
-
-        if (difference > 0){
-
-            return 1;
-        }
-
-        if (difference < 0){
-
-            return -1;
-        }
-
-        iterator_str1++;
-        iterator_str2++;
-    }
-    printf("iter1 %u\n", iterator_str1);
-    printf("iter2 %u\n", iterator_str2);
-
-    if (iterator_str2 < len_of_str2){
-
-        return -1;
-    }
-
-    if (iterator_str1 < len_of_str1){
-
-        return 1;
-    }
-
-    return 0;
-}
-
 
 
 
@@ -307,6 +55,8 @@ void filesize (struct reading_from_file* parameters_of_file){
 void read_text_from_tile (struct reading_from_file* parameters_of_file){
 
     FILE *file = fopen(parameters_of_file->file_name, "r");
+
+    printf("%s\n",parameters_of_file->file_name);
 
     fread(parameters_of_file->strings_of_the_file, (size_t) parameters_of_file->filesize, 1, file);
 
@@ -368,7 +118,9 @@ void read_sort_and_file_output (struct reading_from_file* parameters_of_file){
 
     whitespace_hatching_and_replacing_on_0 (parameters_of_file);
 
-    //printer_of_file(parameters_of_file);
+    qsort(parameters_of_file->ptr_on_enter_in_strings, parameters_of_file->count_of_lines_in_file, sizeof(char*), my_strcmp_without_punctuation_Direct);
+
+    printer_of_file(parameters_of_file);
 
     destruct_dynamic_elements(ptr_on_enter_in_strings, strings_of_file, parameters_of_file->count_of_lines_in_file);
 
@@ -380,28 +132,33 @@ void read_sort_and_file_output (struct reading_from_file* parameters_of_file){
 
 int main (){
 
-    /*struct reading_from_file parameters_of_file = {};
+    struct reading_from_file parameters_of_file = {};
 
-    char file_name[] = "onegin1.txt";
+    char file_name[] = "onegineugene.txt";
 
     parameters_of_file.file_name = file_name;
 
-    read_sort_and_file_output (&parameters_of_file);*/
+    read_sort_and_file_output (&parameters_of_file);
 
-    char str1[] = "rampageless";
+    /*char str1[] = "rampageless";
     char str2[] = "difference";
     char str3[] = "rampagelezs";
     char str4[] = "sjsdhfo";
     char str5[] = "zxc";
 
-    char* strs[5] = {str1, str2, str3, str4, str5};
+    char* strs[5] = {str1, str2, str3, str4, str5};*/
 
-    qsort(strs,5, sizeof(char*),my_strcmp_with_punctuation_Direct);
+    //for (int i = 0; i<5;i++){
+    //
+    //    printf("%s\n", strs[i]);
+    //}
 
-    for (int i = 0; i<5;i++){
+    //qsort(strs,5, sizeof(char*),my_strcmp_with_punctuation_Reversed);
 
-        printf("%s\n", strs[i]);
-    }
+    //for (int i = 0; i<5;i++){
+    //
+    //    printf("%s\n", strs[i]);
+    //}
 
     //printf("%d\n", my_strcmp_with_punctuation_Direct(str2,str3));
 
