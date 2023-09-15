@@ -36,9 +36,8 @@ int my_strcmp_without_punctuation_Reversed (const void* strings1, const void* st
     size_t len_of_str1 = 0;
     size_t len_of_str2 = 0;
 
-    size_t len_of_str1_without_spec = my_strlen(str1, &len_of_str1);
-    size_t len_of_str2_without_spec = my_strlen(str2, &len_of_str2);
-
+    //size_t len_of_str1_without_spec = my_strlen(str1, &len_of_str1);
+    //size_t len_of_str2_without_spec = my_strlen(str2, &len_of_str2);
 
     size_t iterator_str1 = len_of_str1 - 1;
     size_t iterator_str2 = len_of_str2 - 1;
@@ -94,8 +93,8 @@ int my_strcmp_without_punctuation_Direct (const void* strings1, const void* stri
     size_t len_of_str1 = 0;
     size_t len_of_str2 = 0;
 
-    size_t len_of_str1_without_spec_symb = my_strlen(str1, &len_of_str1);
-    size_t len_of_str2_without_spec_symb = my_strlen(str2, &len_of_str2);
+    //size_t len_of_str1_without_spec_symb = my_strlen(str1, &len_of_str1);
+    //size_t len_of_str2_without_spec_symb = my_strlen(str2, &len_of_str2);
 
     size_t iterator_str1 = 0;
     size_t iterator_str2 = 0;
@@ -152,8 +151,8 @@ int my_strcmp_with_punctuation_Direct (const void* strings1, const void* strings
     size_t len_of_str1 = 0;
     size_t len_of_str2 = 0;
 
-    size_t len_of_str1_without_spec_symb = my_strlen(str1, &len_of_str1);
-    size_t len_of_str2_without_spec_symb = my_strlen(str2, &len_of_str2);
+    //size_t len_of_str1_without_spec_symb = my_strlen(str1, &len_of_str1);
+    //size_t len_of_str2_without_spec_symb = my_strlen(str2, &len_of_str2);
 
     size_t iterator_str1 = 0;
     size_t iterator_str2 = 0;
@@ -199,8 +198,8 @@ int my_strcmp_with_punctuation_Reversed (const void* strings1, const void* strin
     size_t len_of_str1 = 0;
     size_t len_of_str2 = 0;
 
-    size_t len_of_str1_without_spec = my_strlen(str1, &len_of_str1);
-    size_t len_of_str2_without_spec = my_strlen(str2, &len_of_str2);
+    //size_t len_of_str1_without_spec = my_strlen(str1, &len_of_str1);
+    //size_t len_of_str2_without_spec = my_strlen(str2, &len_of_str2);
 
     size_t iterator_str1 = len_of_str1 - 1;
     size_t iterator_str2 = len_of_str2 - 1;

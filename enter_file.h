@@ -25,4 +25,8 @@ void destruct_dynamic_elements (char** ptr_on_enter_in_strings, char* strings_of
 
 void read_sort_and_file_output (struct reading_from_file* parameters_of_file);
 
+void counter_of_lines(struct reading_from_file* parameters_of_file);
+
+void write_in_file(struct reading_from_file* parameters_of_file);
+
 #endif

@@ -42,9 +42,9 @@ void whitespace_hatching_and_replacing_on_0 (struct reading_from_file* parameter
 
         if ((*(parameters_of_file->strings_of_the_file + i)) == '\n'){
 
-            *(parameters_of_file->ptr_on_enter_in_strings + (parameters_of_file->count_of_lines_in_file)) = (parameters_of_file->strings_of_the_file + i + 1);
+            *(parameters_of_file->ptr_on_enter_in_strings + (parameters_of_file->current_count_of_lines_in_file)) = (parameters_of_file->strings_of_the_file + i + 1);
 
-            (parameters_of_file->count_of_lines_in_file)++;
+            (parameters_of_file->current_count_of_lines_in_file)++;
 
             *(parameters_of_file->strings_of_the_file + i) = '\0';
         }
@@ -75,12 +75,23 @@ void write_in_file(struct reading_from_file* parameters_of_file){
 
     FILE *file_output = fopen("out.txt", "a+");
 
-    for (size_t i = 0; i < parameters_of_file->count_of_lines_in_file; i++){
+    for (size_t i = 0; i < parameters_of_file->current_count_of_lines_in_file; i++){
 
         fprintf(file_output, "%s\n", *(parameters_of_file->ptr_on_enter_in_strings + i));
     }
 
     fclose(file_output);
+}
+
+void counter_of_lines(struct reading_from_file* parameters_of_file){
+
+    for (size_t i = 0; i < parameters_of_file->filesize; i++){
+
+        if ((*(parameters_of_file->strings_of_the_file + i)) == '\n'){
+
+            (parameters_of_file->count_of_lines_in_file)++;
+        }
+    }
 }
 
 
@@ -94,11 +105,14 @@ void read_sort_and_file_output (struct reading_from_file* parameters_of_file){
 
     read_text_from_tile (parameters_of_file);
 
-    char** ptr_on_enter_in_strings = (char **) calloc(parameters_of_file->filesize, sizeof(char));
+    counter_of_lines(parameters_of_file);
+
+    char** ptr_on_enter_in_strings = (char **) calloc(parameters_of_file->count_of_lines_in_file+1, sizeof(char*));
 
     parameters_of_file->ptr_on_enter_in_strings = ptr_on_enter_in_strings;
 
     whitespace_hatching_and_replacing_on_0 (parameters_of_file);
+    //printf("replacing ok\n");
 
     qsort(parameters_of_file->ptr_on_enter_in_strings, parameters_of_file->count_of_lines_in_file, sizeof(char*), my_strcmp_with_punctuation_Reversed);
 

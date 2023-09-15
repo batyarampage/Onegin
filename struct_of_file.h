@@ -12,6 +12,8 @@ struct reading_from_file {
     char** ptr_on_enter_in_strings = nullptr;
 
     size_t count_of_lines_in_file = 1;
+
+    size_t current_count_of_lines_in_file = 1;
 };
 
 #endif
