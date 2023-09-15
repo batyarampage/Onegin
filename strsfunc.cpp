@@ -93,12 +93,12 @@ int my_strcmp_without_punctuation_Reversed (const void* strings1, const void* st
             iterator_str2--;
         }
 
-        if ((*str1) > (*str2)){
+        if (iterator_str1 > 0){
 
             return 1;
         }
 
-        if ((*str1) < (*str2)){
+        if (iterator_str2 > 0){
 
             return -1;
         }
