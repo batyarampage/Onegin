@@ -27,7 +27,11 @@ void read_text_from_tile (struct reading_from_file* parameters_of_file){
 
     FILE *file = fopen(parameters_of_file->file_name, "r");
 
-    fread(parameters_of_file->strings_of_the_file, (size_t) parameters_of_file->filesize, 1, file);
+    assert(file != nullptr);
+
+    size_t aboba = fread(parameters_of_file->strings_of_the_file, (size_t) parameters_of_file->filesize, 1, file);
+
+    printf("aboba %u\n", aboba);
 
     fclose(file);
 }
@@ -75,7 +79,9 @@ void write_in_file(struct reading_from_file* parameters_of_file){
 
     FILE *file_output = fopen("out.txt", "a+");
 
-    for (size_t i = 0; i < parameters_of_file->current_count_of_lines_in_file; i++){
+    assert(file_output != nullptr);
+
+    for (size_t i = 0; i < parameters_of_file->count_of_lines_in_file; i++){
 
         fprintf(file_output, "%s\n", *(parameters_of_file->ptr_on_enter_in_strings + i));
     }
@@ -84,6 +90,8 @@ void write_in_file(struct reading_from_file* parameters_of_file){
 }
 
 void counter_of_lines(struct reading_from_file* parameters_of_file){
+
+    printf("%u\n",parameters_of_file->filesize);
 
     for (size_t i = 0; i < parameters_of_file->filesize; i++){
 
@@ -107,14 +115,13 @@ void read_sort_and_file_output (struct reading_from_file* parameters_of_file){
 
     counter_of_lines(parameters_of_file);
 
-    char** ptr_on_enter_in_strings = (char **) calloc(parameters_of_file->count_of_lines_in_file+1, sizeof(char*));
+    char** ptr_on_enter_in_strings = (char **) calloc(parameters_of_file->count_of_lines_in_file, sizeof(char*));
 
     parameters_of_file->ptr_on_enter_in_strings = ptr_on_enter_in_strings;
 
     whitespace_hatching_and_replacing_on_0 (parameters_of_file);
-    //printf("replacing ok\n");
 
-    qsort(parameters_of_file->ptr_on_enter_in_strings, parameters_of_file->count_of_lines_in_file, sizeof(char*), my_strcmp_with_punctuation_Reversed);
+    qsort(parameters_of_file->ptr_on_enter_in_strings, parameters_of_file->count_of_lines_in_file, sizeof(char*), my_strcmp_with_punctuation_Direct);
 
     //printer_of_file(parameters_of_file);
 

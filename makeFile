@@ -16,7 +16,7 @@ $(APP): $(OBJ)
 .PHONY : clean, run
 
 clean:
-	rm *.o
+	rm *.o out.txt
 run:
 	@.\eugeneonegin.exe
 	  
