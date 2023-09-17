@@ -19,6 +19,6 @@ int my_strcmp_with_punctuation_Direct (const void* strings1, const void* strings
 
 int my_strcmp_with_punctuation_Reversed (const void* strings1, const void* strings2);
 
-size_t my_strlen (const char* str, size_t* curr_symb);
+size_t my_strlen (const char* str);
 
 #endif

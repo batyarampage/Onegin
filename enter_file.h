@@ -13,6 +13,12 @@
 #include "strsfunc.h"
 #include "struct_of_file.h"
 
+void read_strings_from_file (struct reading_from_file* parameters_of_file);
+
+void fill_array_of_strings (struct reading_from_file* parameters_of_file);
+
+void read_file (struct reading_from_file* parameters_of_file);
+
 void filesize (struct reading_from_file* parameters_of_file);
 
 void read_text_from_tile (struct reading_from_file* parameters_of_file);
@@ -21,7 +27,7 @@ void whitespace_hatching_and_replacing_on_0 (struct reading_from_file* parameter
 
 void printer_of_file(struct reading_from_file* parameters_of_file);
 
-void destruct_dynamic_elements (char** ptr_on_enter_in_strings, char* strings_of_file, size_t count_of_lines);
+void destruct_dynamic_elements (char** ptr_on_enter_in_strings, char* strings_of_file);
 
 void read_sort_and_file_output (struct reading_from_file* parameters_of_file);
 
