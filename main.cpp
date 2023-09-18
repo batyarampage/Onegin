@@ -12,7 +12,9 @@ int main (){
 
     read_file (&parameters_of_file);
 
-    //read_sort_and_file_output (&parameters_of_file);//TODO разделение на считывание и запись
+    sorting_and_outing_in_file (&parameters_of_file);
+
+    destruct_dynamic_elements (&parameters_of_file);
 
     return 0;
 }

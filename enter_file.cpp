@@ -1,17 +1,10 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <errno.h>
-#include <ctype.h>
 #include "strsfunc.h"
 #include "struct_of_file.h"
 #include "enter_file.h"
 
 void read_file (struct reading_from_file* parameters_of_file){
+
+    assert(parameters_of_file != nullptr);
 
     filesize(parameters_of_file);
 
@@ -36,11 +29,13 @@ void read_file (struct reading_from_file* parameters_of_file){
     parameters_of_file->ptr_on_enter_in_strings = array_of_strings_in_file;
 
     fill_array_of_strings (parameters_of_file);
+
 }
 
 
-
 void fill_array_of_strings (struct reading_from_file* parameters_of_file){
+
+    assert(parameters_of_file != nullptr);
 
     parameters_of_file->ptr_on_enter_in_strings->strings = parameters_of_file->strings_of_the_file;
 
@@ -55,7 +50,7 @@ void fill_array_of_strings (struct reading_from_file* parameters_of_file){
             (parameters_of_file->ptr_on_enter_in_strings + (parameters_of_file->current_count_of_lines_in_file))->strings = (parameters_of_file->strings_of_the_file + i + 1);
 
             (parameters_of_file->ptr_on_enter_in_strings + (parameters_of_file->current_count_of_lines_in_file))->line_lenght = (size_t) (parameters_of_file->ptr_on_enter_in_strings + (parameters_of_file->current_count_of_lines_in_file))->strings
-                                                                                                                                 - (size_t) (parameters_of_file->ptr_on_enter_in_strings + (parameters_of_file->current_count_of_lines_in_file) - 1)->strings - 1;
+                                                                                                                                - (size_t) (parameters_of_file->ptr_on_enter_in_strings + (parameters_of_file->current_count_of_lines_in_file) - 1)->strings - 1;
 
             (*(parameters_of_file->strings_of_the_file + i)) = '\0';
 
@@ -65,12 +60,9 @@ void fill_array_of_strings (struct reading_from_file* parameters_of_file){
 }
 
 
-
-
-
-
-
 void filesize (struct reading_from_file* parameters_of_file){
+
+    assert(parameters_of_file != nullptr);
 
     struct stat st = {};
     stat(parameters_of_file->file_name, &st);
@@ -81,40 +73,9 @@ void filesize (struct reading_from_file* parameters_of_file){
 }
 
 
- /*
-void read_text_from_tile (struct reading_from_file* parameters_of_file){
-
-    FILE *file = fopen(parameters_of_file->file_name, "r");
-
-    assert(file != nullptr);
-
-    size_t aboba = fread(parameters_of_file->strings_of_the_file, (size_t) parameters_of_file->filesize, 1, file);
-
-    printf("aboba %u\n", aboba);
-
-    fclose(file);
-}   */
-
-
-
-/*void whitespace_hatching_and_replacing_on_0 (struct reading_from_file* parameters_of_file){
-
-    *(parameters_of_file->ptr_on_enter_in_strings) = parameters_of_file->strings_of_the_file;
-
-    for (size_t i = 0; i < parameters_of_file->filesize; i++){
-
-        if ((*(parameters_of_file->strings_of_the_file + i)) == '\n'){
-
-            (*(parameters_of_file->ptr_on_enter_in_strings + (parameters_of_file->current_count_of_lines_in_file)))->strings = (parameters_of_file->strings_of_the_file + i + 1);
-
-            (parameters_of_file->current_count_of_lines_in_file)++;
-
-            *(parameters_of_file->strings_of_the_file + i) = '\0';
-        }
-    }
-}*/
-
 void printer_of_file(struct reading_from_file* parameters_of_file){
+
+    assert(parameters_of_file != nullptr);
 
     FILE *file_output = fopen("out.txt", "a+");
 
@@ -128,30 +89,10 @@ void printer_of_file(struct reading_from_file* parameters_of_file){
     fclose(file_output);
 }
 
-void destruct_dynamic_elements (char** ptr_on_enter_in_strings, char* strings_of_file){
 
-    free(strings_of_file);
+void counter_of_lines (struct reading_from_file* parameters_of_file){
 
-    free(ptr_on_enter_in_strings);
-}
-
-/*void write_in_file(struct reading_from_file* parameters_of_file){
-
-    FILE *file_output = fopen("out.txt", "a+");
-
-    assert(file_output != nullptr);
-
-    for (size_t i = 0; i < parameters_of_file->count_of_lines_in_file; i++){
-
-        fprintf(file_output, "%s\n", *(parameters_of_file->ptr_on_enter_in_strings + i));//TODO  заменить \0 на \n
-    }
-
-    fclose(file_output);
-} */
-
-void counter_of_lines(struct reading_from_file* parameters_of_file){
-
-    printf("%u\n",parameters_of_file->filesize);
+    assert(parameters_of_file != nullptr);
 
     for (size_t i = 0; i < parameters_of_file->filesize; i++){
 
@@ -163,30 +104,89 @@ void counter_of_lines(struct reading_from_file* parameters_of_file){
 }
 
 
-/*void read_sort_and_file_output (struct reading_from_file* parameters_of_file){
+void sorting_and_outing_in_file (struct reading_from_file* parameters_of_file){
 
-    filesize(parameters_of_file);
+    assert(parameters_of_file != nullptr);
 
-    char* strings_of_file = (char *) calloc(parameters_of_file->filesize, sizeof(char));
+    sorting_from_the_beginning_and_outing_to_file (parameters_of_file);
 
-    parameters_of_file->strings_of_the_file = strings_of_file;
+    sorting_from_the_ending_and_outing_to_file (parameters_of_file);
 
-    read_text_from_tile (parameters_of_file);
+    no_sorting_and_outing_to_file (parameters_of_file);
+}
 
-    counter_of_lines(parameters_of_file);
 
-    char** ptr_on_enter_in_strings = (char **) calloc(parameters_of_file->count_of_lines_in_file, sizeof(char*));
+void sorting_from_the_beginning_and_outing_to_file (struct reading_from_file* parameters_of_file){
 
-    parameters_of_file->ptr_on_enter_in_strings = ptr_on_enter_in_strings;
+    assert(parameters_of_file != nullptr);
 
-    whitespace_hatching_and_replacing_on_0 (parameters_of_file);
+    qsort(parameters_of_file->ptr_on_enter_in_strings,parameters_of_file->count_of_lines_in_file,
+          sizeof(lines_in_file),my_strcmp_without_punctuation_Direct);
 
-    qsort(parameters_of_file->ptr_on_enter_in_strings, parameters_of_file->count_of_lines_in_file, sizeof(char*), my_strcmp_without_punctuation_Reversed);
+    FILE *file_output = fopen("out.txt", "a+");
 
-    //printer_of_file(parameters_of_file);
+    assert(file_output != nullptr);
 
-    write_in_file(parameters_of_file);
+    for (size_t i = 0; i < parameters_of_file->count_of_lines_in_file; i++){
 
-    destruct_dynamic_elements(ptr_on_enter_in_strings, strings_of_file);
+        fprintf(file_output, "%s\n", (parameters_of_file->ptr_on_enter_in_strings + i)->strings);
+    }
 
-} */
+    fprintf(file_output, "\n\n\n\n\n");
+
+    fclose(file_output);
+}
+
+
+void sorting_from_the_ending_and_outing_to_file (struct reading_from_file* parameters_of_file){
+
+    assert(parameters_of_file != nullptr);
+
+    qsort(parameters_of_file->ptr_on_enter_in_strings,parameters_of_file->count_of_lines_in_file,
+          sizeof(lines_in_file),my_strcmp_without_punctuation_Reversed);
+
+    FILE *file_output = fopen("out.txt", "a+");
+
+    assert(file_output != nullptr);
+
+    for (size_t i = 0; i < parameters_of_file->count_of_lines_in_file; i++){
+
+        fprintf(file_output, "%s\n", (parameters_of_file->ptr_on_enter_in_strings + i)->strings);
+    }
+
+    fprintf(file_output, "\n\n\n\n\n");
+
+    fclose(file_output);
+}
+
+
+void no_sorting_and_outing_to_file(struct reading_from_file* parameters_of_file){
+
+    assert(parameters_of_file != nullptr);
+
+    for (size_t i = 0; i < parameters_of_file->filesize; i++){
+
+        if ((*(parameters_of_file->strings_of_the_file + i)) == '\0'){
+
+            (*(parameters_of_file->strings_of_the_file + i)) = '\n';
+        }
+    }
+
+    FILE *file_output = fopen("out.txt", "a+");
+
+    assert(file_output != nullptr);
+
+    fwrite(parameters_of_file->strings_of_the_file, 1,
+          (parameters_of_file->filesize - parameters_of_file->count_of_lines_in_file), file_output);
+
+    fclose(file_output);
+}
+
+
+void destruct_dynamic_elements (struct reading_from_file* parameters_of_file){
+
+    assert(parameters_of_file != nullptr);
+
+    free(parameters_of_file->ptr_on_enter_in_strings);
+    free(parameters_of_file->strings_of_the_file);
+}

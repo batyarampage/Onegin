@@ -2,12 +2,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <errno.h>
 #include <ctype.h>
 #include "strsfunc.h"
+#include "struct_of_file.h"
 
 size_t my_strlen (const char* str){
 
@@ -23,40 +20,27 @@ size_t my_strlen (const char* str){
 
 
 
-int my_strcmp_without_punctuation_Reversed (const void* strings1, const void* strings2){//TODO сделать массив структур с указателями и длинами строк
+int my_strcmp_without_punctuation_Reversed (const void* strings1, const void* strings2){
 
-    const char* str1 = *(const char* const*) strings1;
-    const char* str2 = *(const char* const*) strings2;
+    const lines_in_file str1 = *(const lines_in_file*) strings1;
+    const lines_in_file str2 = *(const lines_in_file*) strings2;
 
-    size_t len_of_str1 = 0;
-    size_t len_of_str2 = 0;
-
-    len_of_str1 = strlen(str1);
-    len_of_str2 = strlen(str2);
-
-    //size_t len_of_str1_without_spec = my_strlen(str1, &len_of_str1);
-    //size_t len_of_str2_without_spec = my_strlen(str2, &len_of_str2);
-
-    //printf("len_of_str1 %u\n",len_of_str1);
-    //printf("len_of_str2 %u\n",len_of_str2);
-    //printf("-----------------------\n");
-
-    size_t iterator_str1 = len_of_str1 - 1;
-    size_t iterator_str2 = len_of_str2 - 1;
+    size_t iterator_str1 = str1.line_lenght - 1;
+    size_t iterator_str2 = str2.line_lenght - 1;
 
     while ((iterator_str1 > 0) && (iterator_str2 > 0)){
 
-        while ((!isalpha(*(str1 + iterator_str1))) && (iterator_str1 > 0)){
+        while ((!isalpha(*(str1.strings + iterator_str1))) && (iterator_str1 > 0)){
 
             iterator_str1--;
         }
 
-        while ((!isalpha(*(str2 + iterator_str2))) && (iterator_str2 > 0)){
+        while ((!isalpha(*(str2.strings + iterator_str2))) && (iterator_str2 > 0)){
 
             iterator_str2--;
         }
 
-        int difference = (*(str1 + iterator_str1)) - (*(str2 + iterator_str2));
+        int difference = (*(str1.strings + iterator_str1)) - (*(str2.strings + iterator_str2));
 
         if (difference > 0){
 
@@ -89,34 +73,28 @@ int my_strcmp_without_punctuation_Reversed (const void* strings1, const void* st
 
 int my_strcmp_without_punctuation_Direct (const void* strings1, const void* strings2){
 
-    const char* str1 = *(const char* const*) strings1;
-    const char* str2 = *(const char* const*) strings2;
+    const lines_in_file str1 = *(const lines_in_file*) strings1;
+    const lines_in_file str2 = *(const lines_in_file*) strings2;
 
-    size_t len_of_str1 = 0;
-    size_t len_of_str2 = 0;
-
-    len_of_str1 = strlen(str1);
-    len_of_str2 = strlen(str2);
-
-    //size_t len_of_str1_without_spec_symb = my_strlen(str1, &len_of_str1);
-    //size_t len_of_str2_without_spec_symb = my_strlen(str2, &len_of_str2);
+    size_t len_of_str1 = str1.line_lenght;
+    size_t len_of_str2 = str2.line_lenght;
 
     size_t iterator_str1 = 0;
     size_t iterator_str2 = 0;
 
     while ((iterator_str1 < len_of_str1) && (iterator_str2 < len_of_str2)){
 
-        while ((!isalpha(*(str1 + iterator_str1))) && (iterator_str1 < len_of_str1)){
+        while ((!isalpha(*(str1.strings + iterator_str1))) && (iterator_str1 < len_of_str1)){
 
             iterator_str1++;
         }
 
-        while ((!isalpha(*(str2 + iterator_str2))) && (iterator_str2 < len_of_str2)){
+        while ((!isalpha(*(str2.strings + iterator_str2))) && (iterator_str2 < len_of_str2)){
 
             iterator_str2++;
         }
 
-        int difference = (*(str1 + iterator_str1)) - (*(str2 + iterator_str2));
+        int difference = (*(str1.strings + iterator_str1)) - (*(str2.strings + iterator_str2));
 
         if (difference > 0){
 
@@ -132,35 +110,24 @@ int my_strcmp_without_punctuation_Direct (const void* strings1, const void* stri
         iterator_str2++;
     }
 
-    return (*(str1+iterator_str1)) - (*(str2+iterator_str2));
+    return (*(str1.strings+iterator_str1)) - (*(str2.strings+iterator_str2));
 }
-
 
 
 int my_strcmp_with_punctuation_Direct (const void* strings1, const void* strings2){
 
-    const char* str1 = *(const char* const*) strings1;
-    const char* str2 = *(const char* const*) strings2;
+    const lines_in_file str1 = *(const lines_in_file*) strings1;
+    const lines_in_file str2 = *(const lines_in_file*) strings2;
 
-    size_t len_of_str1 = 0;
-    size_t len_of_str2 = 0;
-
-    len_of_str1 = strlen(str1);
-    len_of_str2 = strlen(str2);
-
-    printf("len_of_str1 %u\n",len_of_str1);
-    printf("len_of_str2 %u\n",len_of_str2);
-    printf("-----------------------\n");
-
-    //size_t len_of_str1_without_spec_symb = my_strlen(str1, &len_of_str1);
-    //size_t len_of_str2_without_spec_symb = my_strlen(str2, &len_of_str2);
+    size_t len_of_str1 = str1.line_lenght;
+    size_t len_of_str2 = str2.line_lenght;
 
     size_t iterator_str1 = 0;
     size_t iterator_str2 = 0;
 
-    while ((*(str1 + iterator_str1)) && (*(str2 + iterator_str2)) && (iterator_str1 < len_of_str1) && (iterator_str2 < len_of_str2)){
+    while ((iterator_str1 < len_of_str1) && (iterator_str2 < len_of_str2)){
 
-        int difference = (*(str1 + iterator_str1)) - (*(str2 + iterator_str2));
+        int difference = (*(str1.strings + iterator_str1)) - (*(str2.strings + iterator_str2));
 
         if (difference > 0){
 
@@ -186,31 +153,22 @@ int my_strcmp_with_punctuation_Direct (const void* strings1, const void* strings
         return 1;
     }
 
-    return 0;
+     return (*(str1.strings+iterator_str1)) - (*(str2.strings+iterator_str2));
 }
 
 
 
 int my_strcmp_with_punctuation_Reversed (const void* strings1, const void* strings2){
 
-    const char* str1 = (const char*) strings1;
-    const char* str2 = (const char*) strings2;
+    const lines_in_file str1 = *(const lines_in_file*) strings1;
+    const lines_in_file str2 = *(const lines_in_file*) strings2;
 
-    size_t len_of_str1 = 0;
-    size_t len_of_str2 = 0;
+    size_t iterator_str1 = str1.line_lenght - 1;
+    size_t iterator_str2 = str2.line_lenght - 1;
 
-    len_of_str1 = strlen(str1);
-    len_of_str2 = strlen(str2);
+    while ((iterator_str1 > 0) && (iterator_str2 > 0)){
 
-    //size_t len_of_str1_without_spec = my_strlen(str1, &len_of_str1);
-    //size_t len_of_str2_without_spec = my_strlen(str2, &len_of_str2);
-
-    size_t iterator_str1 = len_of_str1 - 1;
-    size_t iterator_str2 = len_of_str2 - 1;
-
-    while ((*(str1 + iterator_str1)) && (*(str2 + iterator_str2)) && (iterator_str1 > 0) && (iterator_str2 > 0)){
-
-        int difference = (*(str1 + iterator_str1)) - (*(str2 + iterator_str2));
+        int difference = (*(str1.strings + iterator_str1)) - (*(str2.strings + iterator_str2));
 
         if (difference > 0){
 
